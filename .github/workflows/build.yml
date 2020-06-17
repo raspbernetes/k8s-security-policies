@@ -1,0 +1,36 @@
+name: build
+
+on: ['pull_request']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Execute OPA Tests
+        id: opa
+        run: |
+          result=$(docker run --rm --workdir /github/workspace \
+            -v $(pwd):/github/workspace \
+            openpolicyagent/opa:0.17.2 \
+            test policies/ -v || exit 0 )
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo $result
+          echo "::set-output name=result::$result"
+
+      - name: Post Results
+        uses: unsplash/comment-on-pr@master
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: |
+            ## OPA Test Results
+            ```
+            ${{ steps.opa.outputs.result }}
+            ```
+          check_for_duplicate_msg: true

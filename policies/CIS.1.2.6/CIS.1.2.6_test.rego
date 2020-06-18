@@ -4,7 +4,7 @@ import data.lib.test
 
 
 test_violation {
-    test.violations(violation) with input as policy_input("kube-apiserver", "")
+    test.violations(violation) with input as policy_input("kube-apiserver","")
 }
 
 test_no_violation {

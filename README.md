@@ -1,4 +1,6 @@
 # Security Policies
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies?ref=badge_shield)
+
 
 | ID | Description | URL |
 |:--:| ----------- |:---:|
@@ -17,3 +19,7 @@
 | K.SEC.13 | Mounting the docker.socket leaks information about other containers and can allow container breakout | [Link](https://kubesec.io/basics/spec-volumes-hostpath-path-var-run-docker-sock/) |
 | K.SEC.14 | Avoid using the :latest tag when deploying containers in production as it is harder to track which version of the image is running and more difficult to roll back properly. | [Link](https://kubernetes.io/docs/concepts/configuration/overview/#container-images) |
 | K.SEC.15 | Disabling allowPrivilegeEscalation to false ensures that no child process of a container can gain more privileges than its parent. | [Link](https://kubernetes.io/docs/concepts/policy/pod-security-policy/#privilege-escalation) |
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies?ref=badge_large)

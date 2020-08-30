@@ -2,15 +2,15 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies?ref=badge_shield)
 
 ## Introduction
-This repository provides a security policies library that is used for securing Kubernetes clusters configurations. The security controls is created based on [CIS Kubernetes benchmark](https://cloud.google.com/kubernetes-engine/docs/concepts/cis-benchmarks) ,and rules defined in [Kubesce.io](https://kubesec.io/). 
-The security controls are written in Rego, a high-level declarative language, its purpose-built for expressing policies over complex hierarchical data structures. For detailed information on Rego see the [Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/) documentation.  
+This repository provides a security policies library that is used for securing Kubernetes clusters configurations. The security policies are created based on [CIS Kubernetes benchmark](https://cloud.google.com/kubernetes-engine/docs/concepts/cis-benchmarks) and rules defined in [Kubesec.io](https://kubesec.io/). 
+The policies are written in Rego, a high-level declarative language, its purpose-built for expressing policies over complex hierarchical data structures. For detailed information on Rego see the [Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/) documentation.  
 
 ## Structure of the repo
 The policies directory contains a list of folders, which corresponds to the list of policies. The folder is named with the benchmark standard and a number to differentiate with each other. For example, the 1.2.1 Ensure that the --anonymous-auth argument is set to false that in CIS benchmark is checked by the REGO files in directory CIS1.2.1. Check more on each policy in [Policy Inventory](policies/POLICIES.md)
 
 Each of these folders contains a rego file and unit test rego file. There is another `lib` folder which has two rego files that contain general functions that can be imported into other rego. `kubernetes.rego` contains functions and rules that will be used in security control rego files, `test.rego` contains functions that can be imported in the unit test files.
 
-## How does this work ?
+## How does this work?
 
 ### Violations
 Each of the rego policies checks against the manifests of resources that can be deployed in the K8s cluster, the `violation` block in each policy rego files will normally contain these statements that will do:

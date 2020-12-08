@@ -1,9 +1,14 @@
-# Security Policies
+<h1 align="center">
+  <p align="center">Kubernetes Security Policies</p>
+  <a href="https://raspbernetes.github.io/docs/"><img src="https://raspbernetes.github.io/img/logo.svg" alt="Raspbernetes"></a>
+</h1>
+
+![build](https://github.com/raspbernetes/k8s-security-policies/workflows/build/badge.svg)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fraspbernetes%2Fk8s-security-policies?ref=badge_shield)
 
 ## Introduction
-This repository provides a security policies library that is used for securing Kubernetes clusters configurations. The security policies are created based on [CIS Kubernetes benchmark](https://cloud.google.com/kubernetes-engine/docs/concepts/cis-benchmarks) and rules defined in [Kubesec.io](https://kubesec.io/). 
-The policies are written in Rego, a high-level declarative language, its purpose-built for expressing policies over complex hierarchical data structures. For detailed information on Rego see the [Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/) documentation.  
+This repository provides a security policies library that is used for securing Kubernetes clusters configurations. The security policies are created based on [CIS Kubernetes benchmark](https://cloud.google.com/kubernetes-engine/docs/concepts/cis-benchmarks) and rules defined in [Kubesec.io](https://kubesec.io/).
+The policies are written in Rego, a high-level declarative language, its purpose-built for expressing policies over complex hierarchical data structures. For detailed information on Rego see the [Policy Language](https://www.openpolicyagent.org/docs/latest/policy-language/) documentation.
 
 ## Structure of the repo
 The policies directory contains a list of folders, which corresponds to the list of policies. The folder is named with the benchmark standard and a number to differentiate with each other. For example, the 1.2.1 Ensure that the --anonymous-auth argument is set to false that in CIS benchmark is checked by the REGO files in directory CIS1.2.1. Check more on each policy in [Policy Inventory](policies/POLICIES.md)
@@ -29,14 +34,14 @@ violation[msg] {
 The `kubernetes.` indicates it is calling a function from `kubernetes.rego`, which put general functions. The logic that specific to this control will be written in the same rego files.
 
 ### Parameters
-For each of the security policies, there will be parameters going to be used for checking against the resources. The parameters can be from external, for example, if these policies are going to be checked in gatekeeper engine, the parameters can be defined in the gatekeeper `constraints`, or we can directly have default parameters in the file itself, for standardizing the parameters, that we will union these parameters 
+For each of the security policies, there will be parameters going to be used for checking against the resources. The parameters can be from external, for example, if these policies are going to be checked in gatekeeper engine, the parameters can be defined in the gatekeeper `constraints`, or we can directly have default parameters in the file itself, for standardizing the parameters, that we will union these parameters
 ```
 params = object.union(default_parameters, kubernetes.parameters)
 
 ```
-### Unit tests 
+### Unit tests
 To verify the correctness of the policies, we use `OPA` testing [framework](https://www.openpolicyagent.org/docs/v0.12.2/how-do-i-test-policies/) to write the unit tests.
-Each unit tests will have test functions that need to start with the `test` in the function name, so they can be picked by the `op test` the positive case start with the name of `test_no_violation` and negative starts with `test_violation` and tests with a policy_input that will be in the same structure of the manifests. 
+Each unit tests will have test functions that need to start with the `test` in the function name, so they can be picked by the `op test` the positive case start with the name of `test_no_violation` and negative starts with `test_violation` and tests with a policy_input that will be in the same structure of the manifests.
 ```
 test_violation {
     test.violations(violation) with input as policy_input(true)
@@ -71,7 +76,7 @@ The rego policies can be used as a schema in the gatekeeper `ConstraintTemplate`
 Using conftest to check the structured yaml manifests files that will be deployed to your clusters.
 Make srue you have installed `Conftest`([Conftest](https://github.com/open-policy-agent/conftest)) and run `conftest test` a yaml file agaist the policy library
 ```
-conftest test deployment.yaml -p policies/. --all-namespaces  
+conftest test deployment.yaml -p policies/. --all-namespaces
 ```
 and the output will indicate if tests passed. An example:
 ```

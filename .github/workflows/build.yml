@@ -12,11 +12,14 @@ jobs:
       - name: Execute OPA Tests
         id: opa
         run: |
-          RESULT=$(docker run --rm --workdir /github/workspace \
+          result=$(docker run --rm --workdir /github/workspace \
             -v $(pwd):/github/workspace \
-            openpolicyagent/opa:0.25.1 \
-            test policies/ -v)
-          echo "result=$RESULT" >> "$GITHUB_ENV"
+            openpolicyagent/opa:0.17.2 \
+            test policies/ -v || exit 0 )
+          result="${result//'%'/'%25'}"
+          result="${result//$'\n'/'%0A'}"
+          result="${result//$'\r'/'%0D'}"
+          echo "::set-output name=result::$result"
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
